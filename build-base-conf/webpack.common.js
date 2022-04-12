@@ -7,10 +7,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                loader: ['babel-loader'],
-                include: srcPath,
-                exclude: /node_modules/
+                test: /\.js$/, //验证规则，通过 js 文件处理
+                loader: ['babel-loader'], //处理 es6   //babel 需要配置 .babelrc
+                include: srcPath, //处理哪个文件夹下的内容
+                exclude: /node_modules/ //排除的文件夹
             },
             // {
             //     test: /\.vue$/,
@@ -20,12 +20,12 @@ module.exports = {
             // {
             //     test: /\.css$/,
             //     // loader 的执行顺序是：从后往前（知识点）
-            //     loader: ['style-loader', 'css-loader']
+            //     loader: ['style-loader', 'css-loader']    //通过css-loader，把.css文件解析为css；通过 style-loader 把它插入到页面中；
             // },
             {
                 test: /\.css$/,
                 // loader 的执行顺序是：从后往前
-                loader: ['style-loader', 'css-loader', 'postcss-loader'] // 加了 postcss
+                loader: ['style-loader', 'css-loader', 'postcss-loader'] // 加了 postcss：浏览器兼容性
             },
             {
                 test: /\.less$/,

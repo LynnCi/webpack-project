@@ -24,7 +24,7 @@ module.exports = smart(webpackCommonConf, {
                         // 否则，依然延用 file-loader 的形式，产出 url 格式
                         limit: 5 * 1024,
 
-                        // 打包到 img 目录下
+                        // url 方式的打包到 img 目录下
                         outputPath: '/img1/',
 
                         // 设置图片的 cdn 地址（也可以统一在外面的 output 中设置，那将作用于所有静态资源）
