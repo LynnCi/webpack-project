@@ -23,18 +23,21 @@ module.exports = {
             // {
             //     test: /\.css$/,
             //     // loader 的执行顺序是：从后往前（知识点）
-            //     loader: ['style-loader', 'css-loader']    //通过css-loader，把.css文件解析为css；通过 style-loader 把它插入到页面中；
+            //     loader: ['style-loader', 'css-loader']    //css-loader：.css文件解析为css；style-loader：把它插入到页面中；
             // },
-            {
-                test: /\.css$/,
-                // loader 的执行顺序是：从后往前
-                loader: ['style-loader', 'css-loader', 'postcss-loader'] // 加了 postcss：浏览器兼容性
-            },
-            {
-                test: /\.less$/,
-                // 增加 'less-loader' ，注意顺序
-                loader: ['style-loader', 'css-loader', 'less-loader']
-            }
+            // {
+
+            //拆分common里的css。dev环境不动，主要处理prod环境的css
+            //     test: /\.css$/,
+            //     // loader 的执行顺序是：从后往前
+            //     //postcss-loader：浏览器兼容性；css-loader：.css文件解析为css；style-loader：把它插入到页面中；
+            //     loader: ['style-loader', 'css-loader', 'postcss-loader']
+            // },
+            // {
+            //     test: /\.less$/,
+            //     // 增加 'less-loader' ，注意顺序
+            //     loader: ['style-loader', 'css-loader', 'less-loader']
+            // }
         ]
     },
     plugins: [

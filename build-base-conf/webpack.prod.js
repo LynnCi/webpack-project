@@ -1,9 +1,13 @@
 const path = require('path')
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractplugin = require('mini-css-extract-plugin')
+const TerserJSPlugin = require('terser-webpack-plugin')
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const webpackCommonConf = require('./webpack.common.js')
 const { smart } = require('webpack-merge')
 const { srcPath, distPath } = require('./paths')
+
 
 module.exports = smart(webpackCommonConf, {
     mode: 'production',
@@ -33,6 +37,26 @@ module.exports = smart(webpackCommonConf, {
                     }
                 }
             },
+            //抽离css
+            {
+                test:/\.css$/,
+                loader:[
+                    MiniCssExtractplugin.loader, //注意，这里不再使用 style-loader
+                    'css-loader',
+                    'postcss-loader'
+                ]
+            },
+            //抽离less less -> css
+            //postcss-loader:做兼容性；less-loader：.less文件解析为.css文件；css-loader：.css文件解析为css
+            {
+                test:/\.less$/,
+                loader:[
+                    MiniCssExtractplugin.loader, //注意，这里不再使用 style-loader
+                    'css-loader',
+                    'less-loader',
+                    'postcss-loader'
+                ]
+            },
         ]
     },
     plugins: [
@@ -40,6 +64,14 @@ module.exports = smart(webpackCommonConf, {
         new webpack.DefinePlugin({
             // window.ENV = 'production'
             ENV: JSON.stringify('production')
+        }),
+        //抽离 css 文件
+        new MiniCssExtractplugin({
+            filename:'css/main.[contentHash:8].css' //打包后的文件名 css目录下main.xxx.css
         })
-    ]
+    ],
+    optimization:{
+        //压缩 css
+        minimizer:[new TerserJSPlugin({}),new OptimizeCssAssetsPlugin({})]
+    }
 })
