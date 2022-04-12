@@ -3,7 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { srcPath, distPath } = require('./paths')
 
 module.exports = {
-    entry: path.join(srcPath, 'index'),
+    entry: { //配置多入口
+        index:path.join(srcPath,'index.js'),
+        other:path.join(srcPath,'other.js')
+    },
     module: {
         rules: [
             {
@@ -35,9 +38,24 @@ module.exports = {
         ]
     },
     plugins: [
+        // new HtmlWebpackPlugin({
+        //     template: path.join(srcPath, 'index.html'),
+        //     filename: 'index.html'
+        // })
+
+        //针对每个入口都要 new 一个实例
+
+        //多入口 - 生成 index.html
         new HtmlWebpackPlugin({
             template: path.join(srcPath, 'index.html'),
-            filename: 'index.html'
+            filename: 'index.html',
+            chunks:['index'] //只引入index.js。如果不写，默认把entry的所有文件都引入
+        }),
+        //多入口 - 生成 index.html
+        new HtmlWebpackPlugin({
+            template: path.join(srcPath, 'other.html'),
+            filename: 'other.html',
+            chunks:['index'] //只引入other.js
         })
     ]
 }
