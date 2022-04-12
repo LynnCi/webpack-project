@@ -72,6 +72,35 @@ module.exports = smart(webpackCommonConf, {
     ],
     optimization:{
         //压缩 css
-        minimizer:[new TerserJSPlugin({}),new OptimizeCssAssetsPlugin({})]
+        minimizer:[new TerserJSPlugin({}),new OptimizeCssAssetsPlugin({})],
+
+        //生成chunk的地方,定义了2个chunk名字，即common 和 vendor
+        //分割代码块
+        splitChunks:{
+            /**
+             * all：全部chunk
+             * initial：入口 chunk，对于异步导入的文件不处理
+             * async：异步 chunk，只对异步导入的文件处理
+             */
+            chunks:'all',
+            //缓存分组
+            cacheGroup:{
+                //第三方模块
+                vendor:{
+                    name:'vendor', //chunk 名称
+                    priority:1,    //权限更高 1 > 0，优先抽离
+                    test:/node_modules/, //第三方模块位置，看是否命中缓存
+                    minSize:0,     //大小限制
+                    minChunks:1    //最少复用几次。若引入1次后，即对它抽离
+                },
+                //公共模块
+                common:{
+                    name:'common', //chunk 名称
+                    priority:0,    //优先级
+                    minSize:0,     //公共模块大小限制
+                    minChunks:2    //公共模块最少复用几次
+                }
+            }
+        }
     }
 })

@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { srcPath, distPath } = require('./paths')
 
 module.exports = {
+    //生成chunk的地方，定义了2个chunk名字，即index 和 other //chunk:代码块
     entry: { //配置多入口
         index:path.join(srcPath,'index.js'),
         other:path.join(srcPath,'other.js')
@@ -52,13 +53,14 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(srcPath, 'index.html'),
             filename: 'index.html',
-            chunks:['index'] //只引入index.js。如果不写，默认把entry的所有文件都引入
+            //chunks 表示该页面需要引用哪些 chunk
+            chunks:['index','vendor','common'] //考虑代码分割
         }),
         //多入口 - 生成 index.html
         new HtmlWebpackPlugin({
             template: path.join(srcPath, 'other.html'),
             filename: 'other.html',
-            chunks:['index'] //只引入other.js
+            chunks:['other','common'] //考虑代码分割
         })
     ]
 }
