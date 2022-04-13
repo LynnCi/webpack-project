@@ -14,7 +14,7 @@ module.exports = {
                 loader: ['babel-loader'],
                 include: srcPath,
                 exclude: /node_modules/
-            }
+            },
         ]
     },
     plugins: [

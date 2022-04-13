@@ -14,8 +14,7 @@ module.exports = {
                 loader: ['babel-loader'],
                 include: srcPath,
                 exclude: /node_modules/
-            }
-            // css 处理
+            },
         ]
     },
     plugins: [
